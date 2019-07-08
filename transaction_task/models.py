@@ -25,3 +25,5 @@ class Trailer(object):
         self.trailer_trans_number = ''
         self.trailer_trans_amount = ''
         self.trailer_filler = ''
+
+happy_string = 'dstt rtyyt rytttt'

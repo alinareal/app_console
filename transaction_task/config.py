@@ -1,4 +1,7 @@
+from collections import namedtuple
 import os
+
+STRUCT = namedtuple('STRUCT', 'pos max_len')
 
 INFILE_NAME = os.path.join('data', 'magic_summer.txt')
 
@@ -9,18 +12,18 @@ HEADER_ID = '01'
 TRANS_ID = '02'
 TRAILER_ID = '03'
 
-ID = slice(0, 2)
+ID = STRUCT(slice(0, 2), 2)
 
-NAME = slice(2, 30)
-SURNAME = slice(30, 60)
-PATRONYMIC = slice(60, 90)
-ADDRESS = slice(90, 120)
+NAME = STRUCT(slice(2, 30), 28)
+SURNAME = STRUCT(slice(30, 60), 30)
+PATRONYMIC = STRUCT(slice(60, 90), 30)
+ADDRESS = STRUCT(slice(90, 120), 30)
 
-TRANS_COUNTER = slice(2, 8)
-TRANS_SUM = slice(8, 20)
-CURRENCY_CODE = slice(20, 23)
-TRANS_FILLER = slice(23, 120)
+TRANS_COUNTER = STRUCT(slice(2, 8), 6)
+TRANS_SUM = STRUCT(slice(8, 20), 12)
+CURRENCY_CODE = STRUCT(slice(20, 23), 3)
+TRANS_FILLER = STRUCT(slice(23, 120), 87)
 
-TRAILER_TRANS_NUMBER = slice(2, 8)
-TRAILER_TRANS_AMOUNT = slice(8, 20)
-TRAILER_FILLER = slice(20, 120)
+TRAILER_TRANS_NUMBER = STRUCT(slice(2, 8), 6)
+TRAILER_TRANS_AMOUNT = STRUCT(slice(8, 20), 12)
+TRAILER_FILLER = STRUCT(slice(20, 120), 100)
