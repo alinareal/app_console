@@ -1,12 +1,12 @@
 from collections import namedtuple
 import os
 
-STRUCT = namedtuple('STRUCT', 'pos max_len')
+STRUCT = namedtuple('STRUCT', 'POS MAX_LEN')
 
 INFILE_NAME = os.path.join('data', 'magic_summer.txt')
 
 LINE_LEN = 120
-LINE_ENDING = '\r\n'
+LINE_ENDING = '\r'
 
 HEADER_ID = '01'
 TRANS_ID = '02'
@@ -22,7 +22,7 @@ ADDRESS = STRUCT(slice(90, 120), 30)
 TRANS_COUNTER = STRUCT(slice(2, 8), 6)
 TRANS_SUM = STRUCT(slice(8, 20), 12)
 CURRENCY_CODE = STRUCT(slice(20, 23), 3)
-TRANS_FILLER = STRUCT(slice(23, 120), 87)
+TRANS_FILLER = STRUCT(slice(23, 120), 97)
 
 TRAILER_TRANS_NUMBER = STRUCT(slice(2, 8), 6)
 TRAILER_TRANS_AMOUNT = STRUCT(slice(8, 20), 12)
