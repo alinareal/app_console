@@ -1,3 +1,7 @@
+import os
+
+INFILE_NAME = os.path.join('data', 'magic_summer.txt')
+
 LINE_LEN = 120
 LINE_ENDING = '\r\n'
 
