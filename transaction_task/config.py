@@ -1,3 +1,10 @@
+LINE_LEN = 120
+LINE_ENDING = '\r\n'
+
+HEADER_ID = '01'
+TRANS_ID = '02'
+TRAILER_ID = '03'
+
 ID = slice(0, 2)
 
 NAME = slice(2, 30)
