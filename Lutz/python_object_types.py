@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
+import decimal
 import math
 import random
 import re
-
+from decimal import Decimal
+from fractions import Fraction
 
 # Числа
-from decimal import Decimal
-
 print(math.e)
 print(math.sqrt(6465))
 print(random.random())
@@ -184,30 +184,89 @@ print(value)
 
 # Кортежи
 magic_tuple = ('a', 'b', 'c', 'd')
-print(len)
+print(magic_tuple)
+print(len(magic_tuple))
+
+print(magic_tuple + (2, 3))
+print(magic_tuple[2])
+print(magic_tuple[:-1])
+
+print(magic_tuple.index('a'))
+print(magic_tuple.count('a'))
+
+T = ('spam', 3.0, [11, 22, 33])
+print(T[2][1])
+
+# Файлы
+f = open('winter.txt', 'w')
+f.write('Nice to meet you!!!\n')
+f.close()
+
+h = open('autumn.txt', 'r')
+inf = h.read()
+print(inf)
+h.close()
+
+print(dir(h))
+print(help(h.seek))
 
 
-d = Decimal(2000)
+# Множества
+super_set_1 = {'a', 'd', 'k'}
+super_set_2 = set('cvbnm')
 
-print d
+print(super_set_1)
+print(type(super_set_1))
 
+print(super_set_2)
+print(type(super_set_2))
 
+print(super_set_1, super_set_2)
 
-
-
-
-
-
-
-
-
-
+print({x ** 2 for x in [1, 2, 3, 4]})
 
 
+# Decimal
+num_1 = Decimal(2.34)
+print(decimal.Decimal('1.00') / decimal.Decimal('3.00'))
+print(num_1 + 1)
+print(type(num_1 + 1))
+
+decimal.getcontext().prec = 2
+print(decimal.Decimal('1.00') / decimal.Decimal('3.00'))
 
 
+# Fraction
+num_2 = Fraction(3, 6)
+print(num_2 + 3)
 
 
+# Booleans
+print(1 < 5, 5 == 5, 5 < 2)
+print(type(None))
+
+print(bool(''))
+print(bool('Aloha'))
 
 
+# Type
+print(type(type))
 
+
+# Class
+class Worker:
+    def __init__(self, name, pay):  # Инициализация при создании
+        self.name = name  # self – это сам объект
+        self.pay = pay
+
+    def last_name(self):
+        return self.name.split()[-1]  # Разбить строку по символам пробела
+
+    def give_raise(self, percent):
+        self.pay *= (1.0 + percent)  # Обновить сумму выплат
+
+bob = Worker('Bob Smith', 50000)  # Создаются два экземпляра и для каждого
+sue = Worker('Sue Jones', 60000)  # определяется имя и сумма выплат
+print(bob.last_name())  # Вызов метода: self – это bob
+print(sue.last_name())  # self – это sue
+print(sue.give_raise(.10))  # Обновить сумму выплат для sue

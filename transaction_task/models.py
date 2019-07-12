@@ -1,9 +1,9 @@
 from collections import namedtuple
 from config import (HEADER_ID, TRANS_ID, TRAILER_ID)
 
-STRUCT_HEADER = namedtuple('STRUCT_HEADER', 'header_id name surname patronymic address')
-STRUCT_TRANSACTION = namedtuple('STRUCT_TRANSACTION', 'trans_id trans_counter trans_sum currency_code trans_filler')
-STRUCT_TRAILER = namedtuple('STRUCT_TRAILER', 'trailer_id trailer_trans_number trailer_trans_amount trailer_filler')
+STRUCT_HEADER = namedtuple('STRUCT_HEADER', 'HEADER_ID NAME SURNAME PATRONYMIC ADDRESS')
+STRUCT_TRANSACTION = namedtuple('STRUCT_TRANSACTION', 'TRANS_ID TRANS_COUNTER TRANS_SUM CURRENCY_CODE TRANS_FILLER')
+STRUCT_TRAILER = namedtuple('STRUCT_TRAILER', 'TRAILER_ID TRAILER_TRANS_NUMBER TRAILER_TRANS_AMOUNT TRAILER_FILLER')
 
 
 class Header(object):

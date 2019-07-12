@@ -27,3 +27,5 @@ TRANS_FILLER = STRUCT(slice(23, 120), 97)
 TRAILER_TRANS_NUMBER = STRUCT(slice(2, 8), 6)
 TRAILER_TRANS_AMOUNT = STRUCT(slice(8, 20), 12)
 TRAILER_FILLER = STRUCT(slice(20, 120), 100)
+
+# NOT_ALLOWED_FIELDS_TO_SET = ('header_id', 'trans_id', 'trailer_id', 'trailer_trans_number', 'trailer_trans_amount')
