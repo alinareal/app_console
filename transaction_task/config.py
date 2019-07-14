@@ -1,9 +1,10 @@
+import uuid
 from collections import namedtuple
 import os
 
 STRUCT = namedtuple('STRUCT', 'POS MAX_LEN')
 
-INFILE_NAME = os.path.join('data', 'magic_summer.txt')
+INFILE_NAME = os.path.join('data', 'File.{}.txt'.format(str(uuid.uuid4())))
 
 LINE_LEN = 120
 LINE_ENDING = '\r'
@@ -28,4 +29,5 @@ TRAILER_TRANS_NUMBER = STRUCT(slice(2, 8), 6)
 TRAILER_TRANS_AMOUNT = STRUCT(slice(8, 20), 12)
 TRAILER_FILLER = STRUCT(slice(20, 120), 100)
 
-# NOT_ALLOWED_FIELDS_TO_SET = ('header_id', 'trans_id', 'trailer_id', 'trailer_trans_number', 'trailer_trans_amount')
+# NOT_ALLOWED_FIELDS_TO_SET = ('header_id', 'trans_id', )
+ALLOWED_FIELDS_TO_SET = ('name', 'surname', 'patronymic', 'address', 'trans_sum', 'currency_code')

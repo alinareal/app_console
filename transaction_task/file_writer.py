@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
 from data_defaults import (HEADER_DEF, TRANS_DEF, TRAILER_DEF)
 import config as conf
@@ -6,7 +6,7 @@ import config as conf
 
 class FileWriter(object):
     def __init__(self):
-        self.trans_counter = 0
+        self.trans_number = 0
         self.total_amount = Decimal()
         self.trans_list = []
         self.header_def_copy = HEADER_DEF.copy()
@@ -19,15 +19,21 @@ class FileWriter(object):
         :return: None
         """
         with open(conf.INFILE_NAME, 'w') as infile_name:
-            infile_name.write(self.create_header())
-            for trans in self.create_trans():
+            header_line = self._create_header()
+            self._check_requirements(header_line)
+            infile_name.write(header_line)
+            trans_list = self._create_trans()
+            for trans in trans_list:
+                self._check_requirements(trans_list)
                 infile_name.write(trans)
-            infile_name.write(self.create_trailer())
+            infile_name.write(self._create_trailer())
 
     def set_header(self, key, value):
+        if key not in conf.ALLOWED_FIELDS_TO_SET:
+            raise ValueError('This field is not allowed to set!')
         self.header_def_copy[key] = value
 
-    def create_header(self):
+    def _create_header(self):
         """
         Creates a header string from header fields
 
@@ -41,19 +47,19 @@ class FileWriter(object):
                               conf.LINE_ENDING
                               ]
         header_str = ''.join(header_values_list)
-
-        if len(header_str) > 121:
-            raise ValueError('The length of your string is more than allowed!')
-
         return header_str
 
     def set_trans(self, key, value):
+        if key not in conf.ALLOWED_FIELDS_TO_SET:
+            raise ValueError('This field is not allowed to set!')
+        # if key in conf.NOT_ALLOWED_FIELDS_TO_SET:
+        #     raise ValueError('This field is not allowed to set!!!')
         try:
             self.trans_list[-1][key] = value
         except:
             raise IndexError('First add transaction, then set values.')
 
-    def create_trans(self):
+    def _create_trans(self):
         """
         Creates a transaction string from transaction fields
 
@@ -61,32 +67,31 @@ class FileWriter(object):
         """
         trans_list = []
         for transactionDict in self.trans_list:
-            self.total_amount += Decimal(transactionDict['trans_sum']) / Decimal('100')
+            # self.total_amount += Decimal(transactionDict['trans_sum']) / Decimal('100')
+            self._process_amount(transactionDict)
             trans_values_list = [transactionDict['trans_id'].rjust(conf.ID.MAX_LEN),
-                                 transactionDict['trans_counter'].rjust(conf.TRANS_COUNTER.MAX_LEN),
+                                 # str(self.trans_counter).rjust(conf.TRANS_COUNTER.MAX_LEN, '0'),
+                                 str(transactionDict['trans_counter']).rjust(conf.TRANS_COUNTER.MAX_LEN, '0'),
                                  transactionDict['trans_sum'].rjust(conf.TRANS_SUM.MAX_LEN),
                                  transactionDict['currency_code'].rjust(conf.CURRENCY_CODE.MAX_LEN),
                                  transactionDict['trans_filler'].rjust(conf.TRANS_FILLER.MAX_LEN),
                                  conf.LINE_ENDING
                                  ]
             trans_list.append(''.join(trans_values_list))
-        # if len(''.join(trans_values_list)) > 121:
-        #     raise ValueError('The length of your string is more than allowed!')
         return trans_list
 
-    def create_trailer(self):
+    def _create_trailer(self):
         """
         Creates a trailer string from trailer fields
 
         :return: ''.join(trailer_values_list) (str)
         """
         trailer_values_list = [TRAILER_DEF['trailer_id'].rjust(conf.ID.MAX_LEN),
-                               str(self.trans_counter).rjust(conf.TRAILER_TRANS_NUMBER.MAX_LEN, '0'),
+                               str(self.trans_number).rjust(conf.TRAILER_TRANS_NUMBER.MAX_LEN, '0'),
                                self._format_total_amount(),
                                TRAILER_DEF['trailer_filler'].rjust(conf.TRAILER_FILLER.MAX_LEN),
                                conf.LINE_ENDING
                                ]
-
         return ''.join(trailer_values_list)
 
     def _format_total_amount(self):
@@ -107,35 +112,38 @@ class FileWriter(object):
 
         :return: None
         """
-        self.trans_counter += 1
+        self.trans_number += 1
         trans_def_copy = TRANS_DEF.copy()
+        trans_def_copy['trans_counter'] = self.trans_number
         self.trans_list.append(trans_def_copy)
 
-    # def _check_len_header(self):
-        # ...
+    def _check_requirements(self, line):
+        if len(line) > 121:
+            raise ValueError('The length of your string is more than allowed!!')
 
-    # def _check_len_trans(self):
-    #     ...
+    def _process_amount(self, trans_dict):
+        try:
+            self.total_amount += Decimal(trans_dict['trans_sum']) / Decimal('100')
+        except InvalidOperation:
+            raise TypeError('Enter only numbers!')
 
 cat = FileWriter()
+
 cat.set_header('name', 'Alina')
 cat.set_header('surname', 'Laevskaya')
 cat.set_header('patronymic', 'Anatolievna')
 # cat.set_header('patronymic', 'Anatolievnammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
-cat.create_header()
 
 cat.add_trans()
-cat.set_trans('trans_sum', '000000003000')
+# cat.set_trans('trans_sum', '00000000a000')
+cat.set_trans('trans_sum', '000000006000')
 cat.set_trans('currency_code', '124')
 
 cat.add_trans()
 cat.set_trans('currency_code', '125')
 
-
 cat.add_trans()
 cat.add_trans()
+cat.add_trans()
 
-cat.create_trailer()
 cat.create_file()
-
-# TODO: if the len of the string is longer than needed
