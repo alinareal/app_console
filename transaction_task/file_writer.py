@@ -1,7 +1,7 @@
 from decimal import Decimal, InvalidOperation
 
-from data_defaults import (HEADER_DEF, TRANS_DEF, TRAILER_DEF)
 import config as conf
+from data_defaults import (HEADER_DEF, TRANS_DEF, TRAILER_DEF)
 
 
 class FileWriter(object):
@@ -52,12 +52,10 @@ class FileWriter(object):
     def set_trans(self, key, value):
         if key not in conf.ALLOWED_FIELDS_TO_SET:
             raise ValueError('This field is not allowed to set!')
-        # if key in conf.NOT_ALLOWED_FIELDS_TO_SET:
-        #     raise ValueError('This field is not allowed to set!!!')
         try:
             self.trans_list[-1][key] = value
-        except:
-            raise IndexError('First add transaction, then set values.')
+        except IndexError:
+            raise ValueError('First add transaction, then set values.')
 
     def _create_trans(self):
         """
@@ -67,10 +65,8 @@ class FileWriter(object):
         """
         trans_list = []
         for transactionDict in self.trans_list:
-            # self.total_amount += Decimal(transactionDict['trans_sum']) / Decimal('100')
             self._process_amount(transactionDict)
             trans_values_list = [transactionDict['trans_id'].rjust(conf.ID.MAX_LEN),
-                                 # str(self.trans_counter).rjust(conf.TRANS_COUNTER.MAX_LEN, '0'),
                                  str(transactionDict['trans_counter']).rjust(conf.TRANS_COUNTER.MAX_LEN, '0'),
                                  transactionDict['trans_sum'].rjust(conf.TRANS_SUM.MAX_LEN),
                                  transactionDict['currency_code'].rjust(conf.CURRENCY_CODE.MAX_LEN),
@@ -94,7 +90,7 @@ class FileWriter(object):
                                ]
         return ''.join(trailer_values_list)
 
-    def _format_total_amount(self):
+    def _format_total_amount(self):  # +
         """
         Brings total_amount to the appropriate view
 
@@ -117,11 +113,12 @@ class FileWriter(object):
         trans_def_copy['trans_counter'] = self.trans_number
         self.trans_list.append(trans_def_copy)
 
-    def _check_requirements(self, line):
+    @staticmethod
+    def _check_requirements(line):  # +
         if len(line) > 121:
             raise ValueError('The length of your string is more than allowed!!')
 
-    def _process_amount(self, trans_dict):
+    def _process_amount(self, trans_dict):  # +
         try:
             self.total_amount += Decimal(trans_dict['trans_sum']) / Decimal('100')
         except InvalidOperation:
@@ -129,7 +126,8 @@ class FileWriter(object):
 
 cat = FileWriter()
 
-cat.set_header('name', 'Alina')
+cat.set_header('name', 'Alona')
+
 cat.set_header('surname', 'Laevskaya')
 cat.set_header('patronymic', 'Anatolievna')
 # cat.set_header('patronymic', 'Anatolievnammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')

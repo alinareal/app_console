@@ -1,13 +1,14 @@
+import os
 import uuid
 from collections import namedtuple
-import os
 
 STRUCT = namedtuple('STRUCT', 'POS MAX_LEN')
 
 INFILE_NAME = os.path.join('data', 'File.{}.txt'.format(str(uuid.uuid4())))
+# INFILE_NAME = os.path.join('data', 'magic_summer.txt')
 
 LINE_LEN = 120
-LINE_ENDING = '\r'
+LINE_ENDING = '\n'
 
 HEADER_ID = '01'
 TRANS_ID = '02'

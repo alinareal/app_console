@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import string
 
+import sys
+from string import maketrans
+
 my_str_1 = 'Roger'
 my_str_2 = "Federer"
 
@@ -136,25 +139,123 @@ print('My name is %s. I am %s.' % ('Alina', 19))
 
 print('%(n)d %(x)s' % {'n': 1, 'x': 'spam'})
 
+family = '{0}, {1} and {2}.'
+print(family.format('Nina', 'Tolya', 'Alina'))
+
+family = '{mother}, {father} and {daughter}.'
+print(family.format(mother='Nina', daughter='Alina', father='Tolya'))
+
+family = '{1}, {0} and {2}.'
+print(family.format('Nina', 'Tolya', 'Alina'))
+
+print('{1}, {0} and {2}.'.format('Nina', 'Tolya', 'Alina'))
+
+form_family = '{1}, {0} and {2}.'.format('Nina', 'Tolya', 'Alina')
+print(form_family.replace('Tolya', 'Anatoliy'))
+
+print('My {1[spam]} runs {0.platform}'.format(sys, {'spam': 'laptop'}))
+print('My {config[spam]} runs {sys.platform}'.format(sys=sys, config={'spam': 'laptop'}))
+
+print('{0:10} = {1:10}'.format('spam', 123.4567))
+
+print('{0:e}, {1:.3e}, {2:g}'.format(3.14159, 3.14159, 3.14159))
+print('{0:f}, {1:.2f}, {2:06.2f}'.format(3.14159, 3.14159, 3.14159))
+
+print('{0:X}, {1:o}, {2:b}'.format(25, 25, 25))
+
+print(format(1.2345, '.2f'))
+
+print('{0:,d}'.format(999999999999))
+
+# String methods
+print('my name is archi.'.capitalize())
+
+print('my name is archi.'.center(25))
+
+print('my name is archi.'.count('a'))
+
+print('my name is archi.'.endswith('i'))
+print('my name is archi.'.endswith('.'))
+
+print('my name is archi.'.find('y'))
+print('my name is archi.'.find('f'))
+
+print('my name is archi.'.index('s'))
+
+print('gdx4w3gd4444'.isalnum())
+
+print('my name is archi'.isalpha())
+
+# print('45333333'.isdecimal())
+
+print('333334'.isdigit())
+
+# print('Python'.identifier())
+
+print('ASSSGfhFD'.islower())
+print('trete'.islower())
+
+# print('534444'.isnumeric())
+# print('What is your name?'.isprintable())
+
+print('     '.isspace())
+print('fdgdg'.isspace())
+
+print('The Weather'.istitle())
+print('The weather'.istitle())
+
+print('The weather'.isupper())
+print('THE WEATHER'.isupper())
+
+print('-'.join('WEATHER'))
+
+print('Dimash'.ljust(10, '#'))
+print('Dimash'.rjust(10, '#'))
+
+print('NONNA'.lower())
+
+print('     I want to eat'.lstrip())
+print('https://www.google.com/'.lstrip('htps:/.'))
+
+print('I want to eat            '.rstrip())
+print('https://www.google.com/'.rstrip('.com/'))
+
+print('I want to eat'.replace('eat', 'sleep'))
+
+print('I want to sleep'.rfind('e'))
+print('I want to sleep'.rfind('f'))
 
 
+print('I want to sleep'.rindex('e'))
+# print('I want to sleep'.rindex('j'))
 
+print('I want to sleep'.split())
 
+txt = 'Thank you for the music\nWelcome to the jungle'
+x = txt.splitlines()
+print(x)
 
+print('I want to sleep'.startswith('I'))
+print('I want to sleep'.startswith('f'))
 
+print('     I want to sleep      '.strip())
 
+print('I want TO sleep'.swapcase())
 
+print('I want TO sleep'.title())
 
+print('I want TO sleep'.upper())
 
+txt = '50'
+x = txt.zfill(10)
+print(x)
 
+print('I want to sleep'.partition('to'))
+print('I want to sleep and to play'.rpartition('to'))
 
+intab = "aeiou"
+outtab = "12345"
+trantab = maketrans(intab, outtab)
 
-
-
-
-
-
-
-
-
-
+str = "this is string example....wow!!!"
+print str.translate(trantab)
