@@ -3,6 +3,8 @@ from decimal import Decimal, InvalidOperation
 import config as conf
 from data_defaults import (HEADER_DEF, TRANS_DEF, TRAILER_DEF)
 
+# TODO: trans_number <= 20000
+
 
 class FileWriter(object):
     def __init__(self):
