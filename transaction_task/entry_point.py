@@ -51,6 +51,7 @@ field_menu = ('''
 9. back
 ''')
 
+
 def process_unknown_option():
     print('Unknown option selected! Try again!')
 
@@ -62,7 +63,7 @@ def print_main_menu():
         print_write_menu()
     elif choice == '2':
         print_read_menu()
-    elif choice == '0':  # exit program
+    elif choice == '0':
         sys.exit()
     else:
         process_unknown_option()
@@ -71,15 +72,17 @@ def print_main_menu():
 def print_read_menu():
     print(read_menu)
     choice = raw_input('Please select: ')
-    if choice == '1':  # add file path
+    if choice == '1':
         user_folder = raw_input('Enter folder: ')
         user_file_name = raw_input('Enter file name: ')
         read_obj.set_file_path(user_folder, user_file_name)
         read_obj.read_file()
     elif choice == '2':
         print_field_menu()
-    elif choice == '3':  # back
+    elif choice == '3':
         print(main_menu)
+    else:
+        process_unknown_option()
 
 
 def print_field_menu():
@@ -105,6 +108,8 @@ def print_field_menu():
         print(read_obj.trailer.trailer_trans_amount)
     elif choice == '9':
         print(read_menu)
+    else:
+        process_unknown_option()
 
 
 def print_write_menu():
@@ -112,55 +117,52 @@ def print_write_menu():
     choice = raw_input('Please select: ')
     if choice == '1':
         print_header_menu()
-    elif choice == '2':  # add transaction
+    elif choice == '2':
         write_obj.add_trans()
     elif choice == '3':
         print_trans_menu()
-    elif choice == '4':  # create file
+    elif choice == '4':
         write_obj.create_file()
-    elif choice == '5':  # back
-        print(write_menu)
+    elif choice == '5':
+        print(main_menu)
     else:
-        print('Unknown option selected!')
-        sys.exit()
+        process_unknown_option()
 
 
 def print_header_menu():
     print(header_menu)
     choice = raw_input('Please select: ')
-    if choice == '1':  # set name
+    if choice == '1':
         user_name = raw_input("Enter name: ")
         write_obj.set_header('name', user_name)
-    elif choice == '2':  # set surname
+    elif choice == '2':
         user_surname = raw_input("Enter surname: ")
         write_obj.set_header('surname', user_surname)
-    elif choice == '3':  # set patronymic
+    elif choice == '3':
         user_patr = raw_input("Enter patronymic: ")
         write_obj.set_header('patronymic', user_patr)
-    elif choice == '4':  # set address
+    elif choice == '4':
         user_address = raw_input("Enter address: ")
         write_obj.set_header('address', user_address)
-    elif choice == '5':  # back
+    elif choice == '5':
         print(write_menu)
     else:
-        print('Unknown option selected!')
-        sys.exit()
+        process_unknown_option()
 
 
 def print_trans_menu():
     print(trans_menu)
     choice = raw_input('Please select: ')
-    if choice == '1':  # set transaction sum
+    if choice == '1':
         user_trans_sum = raw_input('Enter transaction sum: ')
         write_obj.set_trans('trans_sum', user_trans_sum)
-    elif choice == '2':  # set currency code
+    elif choice == '2':
         user_currency_code = raw_input('Enter currency code: ')
         write_obj.set_trans('trans_sum', user_currency_code)
-    elif choice == '3':  # back
+    elif choice == '3':
         print(write_menu)
     else:
-        print('Unknown option selected!')
-        sys.exit()
+        process_unknown_option()
 
 
 def create_parser():
